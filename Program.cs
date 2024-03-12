@@ -18,6 +18,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// CORS
+builder.Services.AddCors();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -29,6 +32,10 @@ if (app.Environment.IsDevelopment())
 
 //middleware to handle exceptions
 app.UseMiddleware<ExceptionMiddleware>();
+
+// Configure CORS
+app.UseCors(appbuilder =>
+    appbuilder.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200","http://localhost:4200"));
 
 app.UseHttpsRedirection();
 
