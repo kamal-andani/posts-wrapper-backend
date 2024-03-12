@@ -17,15 +17,8 @@ namespace zum_rails.Services
             _logger = logger;
         }
 
-        //Get list of posts for all specified tags
-        public async Task<PostsList> FetchPostsByAllTags(string[] tag)
-        {
-            // TODO::
-            return await FetchPostsByTag(tag[0]);
-        }
-
         // Get list of posts by specific tag
-        private async Task<PostsList> FetchPostsByTag(String tag)
+        public async Task<PostsList> FetchPostsByTag(String tag)
         {
 
             //construct endpoint for required tag

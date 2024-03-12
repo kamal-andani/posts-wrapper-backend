@@ -15,9 +15,8 @@ namespace zum_rails.Controllers
         private readonly IThirdPartyClient _thirdPartyClient;
         private readonly IPostsService _postsService;
 
-        public PostsController(IThirdPartyClient thirdPartyClient, IPostsService postsService)
+        public PostsController(IPostsService postsService)
         {
-            _thirdPartyClient = thirdPartyClient;
             _postsService = postsService;
         }
 
@@ -36,16 +35,17 @@ namespace zum_rails.Controllers
             if (!_postsService.TagExistsInQuery(queryDto))
                 return BadRequest(new ApiException(400, "tags parameter is required", "Request must include tag as a query parameter"));
 
-            // get array of tags from comma seperated tag values
-            string[] tags = _postsService.getArrayFromString(queryDto.Tags);
+            // Validate sortBy parameter if exists
+            if (queryDto.SortBy != null && !_postsService.IsSortByParameterValid(queryDto.SortBy.ToLower()))
+                return BadRequest(new ApiException(400, "sortBy parameter is invalid", ""));
+
+            // Validate direction parameter if exists
+            if (queryDto.Direction != null && !_postsService.IsDirectionParameterValid(queryDto.Direction.ToLower()))
+                return BadRequest(new ApiException(400, "direction parameter is invalid", ""));
 
             // Get list of all posts that have at least one tag specified in tags parameter 
-            PostsList posts = await _thirdPartyClient.FetchPostsByAllTags(tags);
+            PostsList posts = await _postsService.GetFormattedPosts(queryDto);
             return Ok(posts);
-           
-           
-            
-
         }
     }
 }

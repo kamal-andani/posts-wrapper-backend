@@ -6,7 +6,7 @@ namespace zum_rails.DTOs
     public class GetPostsQueryDto
     {
         public string Tags { get; set; }
-        public SortBy SortBy { get; set; }
-        public SortDirection Direction { get; set; }
+        public string SortBy { get; set; }
+        public string Direction { get; set; }
     }
 }

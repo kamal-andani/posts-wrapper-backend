@@ -1,4 +1,5 @@
-﻿using zum_rails.DTOs;
+﻿using zum_rails.DataObjects;
+using zum_rails.DTOs;
 
 namespace zum_rails.Interfaces
 {
@@ -12,10 +13,15 @@ namespace zum_rails.Interfaces
         public bool TagExistsInQuery(GetPostsQueryDto query);
 
         /// <summary>
-        /// Splits string input by ','
+        /// Fetch posts from third party api by tags, combines them without any duplicate posts, 
+        /// sorts by specified field (Id as default) in specified order (asc as default)
         /// </summary>
-        /// <param name="tag"></param>
-        /// <returns>array of strings</returns>
-        public string[] getArrayFromString(string tag);
+        /// <param name="tags"></param>
+        /// <returns></returns>
+        public Task<PostsList> GetFormattedPosts(GetPostsQueryDto query);
+
+        public bool IsSortByParameterValid(string sortby);
+
+        public bool IsDirectionParameterValid(string direction);
     }
 }

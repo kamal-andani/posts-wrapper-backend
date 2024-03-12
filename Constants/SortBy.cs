@@ -1,4 +1,5 @@
-﻿namespace zum_rails.Constants
+﻿/* Enum for defining valid Sortby values */
+namespace zum_rails.Constants
 {
     public enum SortBy
     {

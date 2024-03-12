@@ -7,10 +7,10 @@ namespace zum_rails.Interfaces
     {
 
         /// <summary>
-        /// Fetch posts from third party API for all Tags
+        /// Fetch posts from third party API for given tag
         /// </summary>
-        /// <param name="tags"></param>
+        /// <param name="tag"></param>
         /// <returns>PostsList</returns>
-        public Task<PostsList> FetchPostsByAllTags(string[] tags);
+        public Task<PostsList> FetchPostsByTag(string tag);
     }
 }
