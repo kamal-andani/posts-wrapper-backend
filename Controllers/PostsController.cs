@@ -25,9 +25,9 @@ namespace zum_rails.Controllers
         /// Endpoint -> https://localhost:7016/api/posts
         /// </summary>
         /// <param name="queryDto"></param>
-        /// <returns>PostList</returns>
+        /// <returns>PostsResponseDto</returns>
         [HttpGet]
-        [ProducesResponseType(200, Type=typeof(PostsList))]
+        [ProducesResponseType(200, Type=typeof(PostsResponseDto))]
         [ProducesResponseType(400, Type=typeof(ApiException))]
         public async Task<IActionResult> GetPosts([FromQuery] GetPostsQueryDto queryDto)
         {
@@ -44,7 +44,7 @@ namespace zum_rails.Controllers
                 return BadRequest(new ApiException(400, "direction parameter is invalid", ""));
 
             // Get list of all posts that have at least one tag specified in tags parameter 
-            PostsList posts = await _postsService.GetFormattedPosts(queryDto);
+            PostsResponseDto posts = await _postsService.GetFormattedPosts(queryDto);
             return Ok(posts);
         }
     }

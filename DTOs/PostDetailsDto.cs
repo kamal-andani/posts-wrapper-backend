@@ -1,7 +1,7 @@
-﻿/* Post Details Object for third party API */
-namespace zum_rails.DataObjects
+﻿/* Post Details DTO for our API's response */
+namespace zum_rails.DTOs
 {
-    public class PostDetails
+    public class PostDetailsDto
     {
         public string Author { get; set; }
         public int AuthorId { get; set; }

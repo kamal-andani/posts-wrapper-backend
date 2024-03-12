@@ -17,8 +17,8 @@ namespace zum_rails.Interfaces
         /// sorts by specified field (Id as default) in specified order (asc as default)
         /// </summary>
         /// <param name="tags"></param>
-        /// <returns></returns>
-        public Task<PostsList> GetFormattedPosts(GetPostsQueryDto query);
+        /// <returns>PostsResponseDto</returns>
+        public Task<PostsResponseDto> GetFormattedPosts(GetPostsQueryDto query);
 
         public bool IsSortByParameterValid(string sortby);
 

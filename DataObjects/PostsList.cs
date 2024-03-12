@@ -1,4 +1,5 @@
-﻿namespace zum_rails.DataObjects
+﻿/* PostsList Object for third party API */
+namespace zum_rails.DataObjects
 {
     public class PostsList
     {
