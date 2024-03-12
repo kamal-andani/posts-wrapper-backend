@@ -12,7 +12,6 @@ namespace zum_rails.Controllers
     [ApiController]
     public class PostsController : ControllerBase
     {
-        private readonly IThirdPartyClient _thirdPartyClient;
         private readonly IPostsService _postsService;
 
         public PostsController(IPostsService postsService)
