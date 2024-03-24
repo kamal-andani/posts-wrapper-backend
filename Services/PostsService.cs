@@ -40,10 +40,12 @@ namespace zum_rails.Services
         {
             // get array of tags from comma seperated tag values
             string[] tags = GetArrayFromString(queryDto.Tags);
-
+            
+            // Get unique tags
+            string[] uniqueTags = tags.Distinct().ToArray();
 
             // Get required unique posts
-            PostsList uniqueCombinedPosts = await FetchAllPostsHavingAtLeastOneSpecifiedTag(tags);
+            PostsList uniqueCombinedPosts = await FetchAllPostsHavingAtLeastOneSpecifiedTag(uniqueTags);
 
             
             // sort the result
