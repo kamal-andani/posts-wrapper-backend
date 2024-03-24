@@ -40,10 +40,12 @@ namespace zum_rails.Services
         {
             // get array of tags from comma seperated tag values
             string[] tags = GetArrayFromString(queryDto.Tags);
-
+            
+            // Get unique tags
+            string[] uniqueTags = tags.Distinct().ToArray();
 
             // Get required unique posts
-            PostsList uniqueCombinedPosts = await FetchAllPostsHavingAtLeastOneSpecifiedTag(tags);
+            PostsList uniqueCombinedPosts = await FetchAllPostsHavingAtLeastOneSpecifiedTag(uniqueTags);
 
             
             // sort the result
@@ -63,17 +65,25 @@ namespace zum_rails.Services
         /// <returns>PostsList</returns>
         private async Task<PostsList> FetchAllPostsHavingAtLeastOneSpecifiedTag(string[] tags)
         {
-            List<PostDetails> postsDetailList = new List<PostDetails>();
+            IEnumerable<PostDetails> postsDetailList = new List<PostDetails>();
+            List<PostsList> postsList = new List<PostsList>();
 
-            foreach (var tag in tags)
+            // Define maximum degree of parallelism 
+            var parallelOptions = new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount };
+
+            // parallel foreach to iterate through tags and make third-party API requests parallelly
+            await Parallel.ForEachAsync(tags, parallelOptions, async (tag, _) =>
             {
-                //get posts for a tag
                 var postsForTag = await _thirdPartyClient.FetchPostsByTag(tag);
-                
+                postsList.Add(postsForTag);
+            });
+
+            foreach (var post in postsList)
+            {
                 // Union set of retrieved postdetails lists based on postdetails.Id as Key
-                postsDetailList = postsDetailList.UnionBy(postsForTag.Posts, x => x.Id).ToList();
+                postsDetailList = postsDetailList.UnionBy(post.Posts, x => x.Id);
             }
-            return new PostsList{ Posts = postsDetailList};
+            return new PostsList { Posts = postsDetailList };
 
         }
 
